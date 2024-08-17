@@ -9,7 +9,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class HotelSearch {
 
@@ -42,5 +46,24 @@ public class HotelSearch {
         driver.findElement(By.xpath("//div[@class='datepicker-days']//td[text()='22']")).click();
 //        driver.findElements(By.xpath("//div[@class='datepicker-days']//td[text()='30']")).stream().filter(el -> el.isDisplayed()).skip(1).findFirst().ifPresent(el -> el.click());
         driver.findElements(By.xpath("//div[@class='datepicker-days']//td[not(contains(@class, 'disabled')) and text()='30']")).stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click()); //without skip() method
+
+        //add people
+        driver.findElement(By.id("travellersInput")).click();
+        WebElement adultCount = driver.findElement(By.id("adultInput"));
+        Assert.assertEquals(adultCount.getAttribute("value"), "2");
+        driver.findElement(By.id("adultPlusBtn")).click();
+        driver.findElement(By.id("childPlusBtn")).click();
+
+        //search for results
+        driver.findElement(By.xpath("//button[text()=' Search']")).click();
+
+        //find and list all hotel names
+        List<String> hotelNames = driver.findElements(By.xpath("//h4[contains(@class, 'list_title')]//b")).stream().map(el -> el.getAttribute("textContent")).collect(Collectors.toList());
+        hotelNames.forEach(el -> System.out.println(el));
+
+        Assert.assertEquals(hotelNames.get(0),"Jumeirah Beach Hotel");
+        Assert.assertEquals(hotelNames.get(1),"Oasis Beach Tower");
+        Assert.assertEquals(hotelNames.get(2),"Rose Rayhaan Rotana");
+        Assert.assertEquals(hotelNames.get(3),"Hyatt Regency Perth");
     }
 }
