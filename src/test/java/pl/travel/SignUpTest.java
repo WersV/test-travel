@@ -8,9 +8,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-public class SignUpTest {
+public class SignUpTest extends BaseTest {
 
     public String randomEmailSeed() {
         double randomNum = Math.random()*1000;
@@ -20,13 +20,6 @@ public class SignUpTest {
 
     @Test
     public void signUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-search-engine-choice-screen");
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.get("http://www.kurs-selenium.pl/demo/");
-
         //sign up
         driver.findElements(By.xpath("//li[@id='li_myaccount']//a[contains(text(),' My Account ')]")).stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click());
         driver.findElements(By.xpath("//ul[@class='dropdown-menu']//a[text()='  Sign Up']")).stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click());
@@ -53,6 +46,5 @@ public class SignUpTest {
 
         Assert.assertTrue(userNameCheck.contains(firstName));
         Assert.assertTrue(userNameCheck.contains(lastName));
-        driver.quit();
     }
 }

@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -15,17 +14,10 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HotelSearch {
+public class HotelSearchTest extends BaseTest{
 
     @Test
-    public void searchHotel() throws InterruptedException {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-search-engine-choice-screen");
-
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-
+    public void searchHotel() {
         //type city name
         driver.get("http://www.kurs-selenium.pl/demo/");
         WebElement searchInput = driver.findElement(By.xpath("//input[contains(@class, 'select2-focusser')]"));
@@ -65,6 +57,5 @@ public class HotelSearch {
         Assert.assertEquals(hotelNames.get(1),"Oasis Beach Tower");
         Assert.assertEquals(hotelNames.get(2),"Rose Rayhaan Rotana");
         Assert.assertEquals(hotelNames.get(3),"Hyatt Regency Perth");
-        driver.quit();
     }
 }

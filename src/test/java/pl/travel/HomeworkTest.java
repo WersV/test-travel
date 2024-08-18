@@ -11,23 +11,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class Homework {
+public class HomeworkTest extends BaseTest{
 
     @Test
     public void searchWithEmptyLocation() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-search-engine-choice-screen");
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.get("http://www.kurs-selenium.pl/demo/");
-
-
         //homework - test search with no location
 //        driver.findElement(By.xpath("//input[@name='checkin']")).click();
 //        driver.findElement(By.xpath("//td[@class='day ' and text()='22']")).click();
@@ -64,6 +54,5 @@ public class Homework {
         Assert.assertEquals(alertTexts.get(2), "The Password field is required.");
         Assert.assertEquals(alertTexts.get(3), "The First name field is required.");
         Assert.assertEquals(alertTexts.get(4), "The Last Name field is required.");
-        driver.quit();
     }
 }
