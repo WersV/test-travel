@@ -53,5 +53,6 @@ public class SignUpTest {
 
         Assert.assertTrue(userNameCheck.contains(firstName));
         Assert.assertTrue(userNameCheck.contains(lastName));
+        driver.quit();
     }
 }
