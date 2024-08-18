@@ -1,4 +1,4 @@
-package pl.travel;
+package pl.seleniumdemo.tests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -21,9 +21,9 @@ public class BaseTest {
         driver.get("http://www.kurs-selenium.pl/demo/");
     }
 
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
+//    @AfterMethod
+//    public void tearDown() {
+//        driver.quit();
+//    }
 
 }
