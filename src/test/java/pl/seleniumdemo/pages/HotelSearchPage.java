@@ -9,6 +9,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.sql.SQLOutput;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class HotelSearchPage {
 
     @FindBy(xpath = "//input[contains(@class, 'select2-focusser')]")
@@ -38,6 +42,9 @@ public class HotelSearchPage {
     @FindBy(xpath = "//button[text()=' Search']")
     private WebElement searchBtn;
 
+    @FindBy(xpath = "//h4[contains(@class, 'list_title')]//b")
+    private List<WebElement> hotelNamesLocator;
+
     private final WebDriver driver;
 
     public HotelSearchPage(WebDriver driver) {
@@ -66,5 +73,9 @@ public class HotelSearchPage {
 
     public void performSearch() {
         searchBtn.click();
+    }
+
+    public List<String> findHotelNames() {
+        return hotelNamesLocator.stream().map(el -> el.getAttribute("textContent")).collect(Collectors.toList());
     }
 }
