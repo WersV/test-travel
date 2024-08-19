@@ -45,16 +45,24 @@ public class HotelSearchPage {
     @FindBy(xpath = "//h4[contains(@class, 'list_title')]//b")
     private List<WebElement> hotelNamesLocator;
 
+    @FindBy(xpath = "//h2[text()='No Results Found']")
+    private WebElement noResults;
+
+
     private final WebDriver driver;
+
+    private final WebDriverWait wait;
+
 
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver,this);
         this.driver = driver;
+        wait = new WebDriverWait(driver, 10);
     }
+
 
     public void setCity(String cityName) {
         searchInput.sendKeys(cityName);
-        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='select2-match' and text()='Dubai']")));
         confirmElement.click();
     }
@@ -64,11 +72,19 @@ public class HotelSearchPage {
         checkOutInput.sendKeys(checkOutDate);
     }
 
-    public void setTravellers() {
+    public void setTravellers(int adultBtnClickTimes, int childBtnClickTimes) {
         travellersInput.click();
-        Assert.assertEquals(adultInput.getAttribute("value"), "2");
-        adultPlusBtn.click();
-        childPlusBtn.click();
+        wait.until(ExpectedConditions.visibilityOf(adultPlusBtn));
+
+        for(int i = 0; i < adultBtnClickTimes; i++) {
+            wait.until(ExpectedConditions.visibilityOf(adultPlusBtn));
+            adultPlusBtn.click();
+        }
+
+        for(int i = 0; i < childBtnClickTimes; i++) {
+            wait.until(ExpectedConditions.visibilityOf(childPlusBtn));
+            childPlusBtn.click();
+        }
     }
 
     public void performSearch() {
@@ -77,5 +93,12 @@ public class HotelSearchPage {
 
     public List<String> findHotelNames() {
         return hotelNamesLocator.stream().map(el -> el.getAttribute("textContent")).collect(Collectors.toList());
+    }
+
+    public void SearchWithNoLocation(String checkInDate, String checkOutDate, int adultBtnClickTimes, int childBtnClickTimes) {
+        setDates(checkInDate, checkOutDate);
+        setTravellers(adultBtnClickTimes, childBtnClickTimes);
+        performSearch();
+        Assert.assertTrue(noResults.isDisplayed());
     }
 }
