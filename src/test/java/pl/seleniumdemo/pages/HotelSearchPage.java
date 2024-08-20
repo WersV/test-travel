@@ -72,19 +72,18 @@ public class HotelSearchPage {
         checkOutInput.sendKeys(checkOutDate);
     }
 
+    private void addTraveller(WebElement traveller, int btnClickTimes) {
+        for(int i = 0; i < btnClickTimes; i++) {
+            wait.until(ExpectedConditions.visibilityOf(traveller));
+            traveller.click();
+        }
+    }
+
     public void setTravellers(int adultBtnClickTimes, int childBtnClickTimes) {
         travellersInput.click();
         wait.until(ExpectedConditions.visibilityOf(adultPlusBtn));
-
-        for(int i = 0; i < adultBtnClickTimes; i++) {
-            wait.until(ExpectedConditions.visibilityOf(adultPlusBtn));
-            adultPlusBtn.click();
-        }
-
-        for(int i = 0; i < childBtnClickTimes; i++) {
-            wait.until(ExpectedConditions.visibilityOf(childPlusBtn));
-            childPlusBtn.click();
-        }
+        addTraveller(adultPlusBtn, adultBtnClickTimes);
+        addTraveller(childPlusBtn, childBtnClickTimes);
     }
 
     public void performSearch() {

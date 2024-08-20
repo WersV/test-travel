@@ -19,7 +19,7 @@ public class HotelSearchTest extends BaseTest{
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.setCity("Dubai");
         hotelSearchPage.setDates("22/08/2024","30/08/2024");
-        hotelSearchPage.setTravellers(0,2);
+        hotelSearchPage.setTravellers(2,2);
         hotelSearchPage.performSearch();
         List<String> hotelNames = hotelSearchPage.findHotelNames();
 
