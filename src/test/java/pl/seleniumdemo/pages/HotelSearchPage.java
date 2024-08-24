@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,9 +16,6 @@ public class HotelSearchPage {
 
     @FindBy(xpath = "//input[contains(@class, 'select2-focusser')]")
     private WebElement searchInput;
-
-    @FindBy(xpath = "//span[@class='select2-match' and text()='Dubai']")
-    private WebElement confirmElement;
 
     @FindBy(name = "checkin")
     private WebElement checkInInput;
@@ -63,8 +59,9 @@ public class HotelSearchPage {
 
     public void setCity(String cityName) {
         searchInput.sendKeys(cityName);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='select2-match' and text()='Dubai']")));
-        confirmElement.click();
+        String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+        driver.findElement(By.xpath(xpath)).click();
     }
 
     public void setDates(String checkInDate, String checkOutDate) {
