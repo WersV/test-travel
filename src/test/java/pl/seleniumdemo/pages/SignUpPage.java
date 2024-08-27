@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import pl.seleniumdemo.model.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class SignUpPage {
     private WebElement password;
 
     @FindBy(xpath = "//input[@name='confirmpassword']")
-    private WebElement confirmpassword;
+    private WebElement confirmPassword;
 
     @FindBy(xpath = "//button[text()=' Sign Up']")
     private WebElement signUpBtn;
@@ -59,13 +60,13 @@ public class SignUpPage {
         signUpOption.stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click());
     }
 
-    public void fillSignUpForm(String firstName, String lastName, String phoneNum, String email, String password, String confirmPassword) {
-        this.firstName.sendKeys(firstName);
-        this.lastName.sendKeys(lastName);
-        this.phoneNum.sendKeys(phoneNum);
-        this.email.sendKeys(email);
-        this.password.sendKeys(password);
-        this.confirmpassword.sendKeys(confirmPassword);
+    public void fillSignUpForm(User user) {
+        this.firstName.sendKeys(user.getFirstName());
+        this.lastName.sendKeys(user.getLastName());
+        this.phoneNum.sendKeys(user.getPhoneNum());
+        this.email.sendKeys(user.getEmail());
+        this.password.sendKeys(user.getPassword());
+        this.confirmPassword.sendKeys(user.getConfirmPassword());
     }
 
     public void performSignUp() {

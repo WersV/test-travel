@@ -1,6 +1,7 @@
 package pl.seleniumdemo.tests;
 
 import org.testng.annotations.*;
+import pl.seleniumdemo.model.User;
 import pl.seleniumdemo.pages.SignUpPage;
 
 import java.util.List;
@@ -15,9 +16,18 @@ public class SignUpTest extends BaseTest {
 
     @Test
     public void signUp() {
+
+        User user = new User();
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setPhoneNum("123456789");
+        user.setEmail(randomEmailSeed()+"@gmail.com");
+        user.setPassword("admin1");
+        user.setConfirmPassword("admin1");
+
         SignUpPage signUpPage = new SignUpPage(driver);
         signUpPage.enterSignUpPage();
-        signUpPage.fillSignUpForm("John", "Doe", "123456789", randomEmailSeed()+"@gmail.com", "admin1", "admin1");
+        signUpPage.fillSignUpForm(user);
         signUpPage.performSignUp();
         signUpPage.checkNameAfterSignUp();
     }
