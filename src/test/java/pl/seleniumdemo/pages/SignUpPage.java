@@ -78,7 +78,7 @@ public class SignUpPage {
         Assert.assertTrue(userName.getText().contains(this.lastName.getAttribute("value")));
     }
 
-    public void signUpWithNoDataInTheForm() {
+    public List<String> signUpWithNoDataInTheForm() {
         myAccMenu.stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click());
         signUpOption.stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click());
         performSignUp();
@@ -88,6 +88,6 @@ public class SignUpPage {
         List<String> alertTexts = elements.stream()
                 .map(el -> el.getAttribute("textContent"))
                 .collect(Collectors.toList());
-        System.out.println(alertTexts);
+        return alertTexts;
     }
 }

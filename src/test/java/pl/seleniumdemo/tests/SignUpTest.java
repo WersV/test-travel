@@ -1,11 +1,9 @@
 package pl.seleniumdemo.tests;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.*;
 import pl.seleniumdemo.pages.SignUpPage;
+
+import java.util.List;
 
 public class SignUpTest extends BaseTest {
 
@@ -28,6 +26,7 @@ public class SignUpTest extends BaseTest {
     public void signUpWithNoDataInTheForm() {
         SignUpPage signUpPage = new SignUpPage(driver);
         signUpPage.enterSignUpPage();
-        signUpPage.signUpWithNoDataInTheForm();
+        List<String> errorList = signUpPage.signUpWithNoDataInTheForm();
+        System.out.println(errorList);
     }
 }
