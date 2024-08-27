@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SignUpPage {
 
@@ -45,9 +46,12 @@ public class SignUpPage {
 
     private final WebDriver driver;
 
+    private final WebDriverWait wait;
+
     public SignUpPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 10);
     }
 
     public void enterSignUpPage() {
@@ -69,9 +73,21 @@ public class SignUpPage {
     }
 
     public void checkNameAfterSignUp() {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[contains(text(), 'Hi, ')]")));
         Assert.assertTrue(userName.getText().contains(this.firstName.getAttribute("value")));
         Assert.assertTrue(userName.getText().contains(this.lastName.getAttribute("value")));
+    }
+
+    public void signUpWithNoDataInTheForm() {
+        myAccMenu.stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click());
+        signUpOption.stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click());
+        performSignUp();
+        List<WebElement> elements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.xpath("//div[contains(@class, 'alert-danger')]//p")
+        ));
+        List<String> alertTexts = elements.stream()
+                .map(el -> el.getAttribute("textContent"))
+                .collect(Collectors.toList());
+        System.out.println(alertTexts);
     }
 }

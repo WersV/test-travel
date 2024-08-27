@@ -23,4 +23,11 @@ public class SignUpTest extends BaseTest {
         signUpPage.performSignUp();
         signUpPage.checkNameAfterSignUp();
     }
+
+    @Test
+    public void signUpWithNoDataInTheForm() {
+        SignUpPage signUpPage = new SignUpPage(driver);
+        signUpPage.enterSignUpPage();
+        signUpPage.signUpWithNoDataInTheForm();
+    }
 }
