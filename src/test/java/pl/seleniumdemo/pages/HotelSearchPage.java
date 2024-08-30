@@ -1,5 +1,7 @@
 package pl.seleniumdemo.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -49,6 +51,7 @@ public class HotelSearchPage {
 
     private final WebDriverWait wait;
 
+    private static final Logger logger = LogManager.getLogger();
 
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver,this);
@@ -58,15 +61,19 @@ public class HotelSearchPage {
 
 
     public void setCity(String cityName) {
+        logger.info("Setting city");
         searchInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
         driver.findElement(By.xpath(xpath)).click();
+        logger.info("Setting city done");
     }
 
     public void setDates(String checkInDate, String checkOutDate) {
+        logger.info("Setting dates");
         checkInInput.sendKeys(checkInDate);
         checkOutInput.sendKeys(checkOutDate);
+        logger.info("Setting dates done");
     }
 
     private void addTraveller(WebElement traveller, int btnClickTimes) {
