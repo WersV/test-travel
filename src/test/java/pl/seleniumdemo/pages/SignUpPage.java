@@ -9,11 +9,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pl.seleniumdemo.model.User;
+import pl.seleniumdemo.utils.SeleniumHelper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SignUpPage {
+public class SignUpPage extends SeleniumHelper {
 
     @FindBy(xpath = "//li[@id='li_myaccount']//a[contains(text(),' My Account ')]")
     private List<WebElement> myAccMenu;
@@ -47,12 +48,12 @@ public class SignUpPage {
 
     private final WebDriver driver;
 
-    private final WebDriverWait wait;
+//    private final WebDriverWait wait;
 
     public SignUpPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
+//        this.wait = new WebDriverWait(driver, 10);
     }
 
     public void enterSignUpPage() {
@@ -74,7 +75,8 @@ public class SignUpPage {
     }
 
     public void checkNameAfterSignUp() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[contains(text(), 'Hi, ')]")));
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[contains(text(), 'Hi, ')]")));
+        waitForElementToExist(this.driver,By.xpath("//h3[contains(text(), 'Hi, ')]"), 10);
         Assert.assertTrue(userName.getText().contains(this.firstName.getAttribute("value")));
         Assert.assertTrue(userName.getText().contains(this.lastName.getAttribute("value")));
     }
@@ -83,9 +85,7 @@ public class SignUpPage {
         myAccMenu.stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click());
         signUpOption.stream().filter(el -> el.isDisplayed()).findFirst().ifPresent(el -> el.click());
         performSignUp();
-        List<WebElement> elements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
-                By.xpath("//div[contains(@class, 'alert-danger')]//p")
-        ));
+        List<WebElement> elements = presenceOfAllElementsLocatedBy(this.driver, By.xpath("//div[contains(@class, 'alert-danger')]//p"), 10);
         List<String> alertTexts = elements.stream()
                 .map(el -> el.getAttribute("textContent"))
                 .collect(Collectors.toList());

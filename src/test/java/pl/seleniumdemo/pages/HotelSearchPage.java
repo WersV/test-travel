@@ -7,14 +7,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import pl.seleniumdemo.utils.SeleniumHelper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HotelSearchPage {
+public class HotelSearchPage extends SeleniumHelper {
 
     @FindBy(xpath = "//input[contains(@class, 'select2-focusser')]")
     private WebElement searchInput;
@@ -46,17 +45,13 @@ public class HotelSearchPage {
     @FindBy(xpath = "//h2[text()='No Results Found']")
     private WebElement noResults;
 
-
     private final WebDriver driver;
-
-    private final WebDriverWait wait;
 
     private static final Logger logger = LogManager.getLogger();
 
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver,this);
         this.driver = driver;
-        wait = new WebDriverWait(driver, 10);
     }
 
 
@@ -64,7 +59,7 @@ public class HotelSearchPage {
         logger.info("Setting city");
         searchInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+        waitForElementToExist(this.driver, By.xpath(xpath), 10);
         driver.findElement(By.xpath(xpath)).click();
         logger.info("Setting city done");
     }
@@ -78,14 +73,14 @@ public class HotelSearchPage {
 
     private void addTraveller(WebElement traveller, int btnClickTimes) {
         for(int i = 0; i < btnClickTimes; i++) {
-            wait.until(ExpectedConditions.visibilityOf(traveller));
+            waitForElementToBeVisible(this.driver,traveller, 10);
             traveller.click();
         }
     }
 
     public void setTravellers(int adultBtnClickTimes, int childBtnClickTimes) {
         travellersInput.click();
-        wait.until(ExpectedConditions.visibilityOf(adultPlusBtn));
+        waitForElementToBeVisible(this.driver, adultPlusBtn, 10);
         addTraveller(adultPlusBtn, adultBtnClickTimes);
         addTraveller(childPlusBtn, childBtnClickTimes);
     }
