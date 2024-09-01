@@ -6,11 +6,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class DriverFactory {
 
-    public static WebDriver getDriver(String driverType) {
+    public static WebDriver getDriver() throws IOException {
+
+        String driverType = PropertiesLoader.loadProperty("browser.name");
 
         WebDriver driver = null;
 

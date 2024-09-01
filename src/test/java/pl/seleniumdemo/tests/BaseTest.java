@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import pl.seleniumdemo.utils.DriverFactory;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest extends DriverFactory {
@@ -17,9 +18,8 @@ public class BaseTest extends DriverFactory {
     protected WebDriver driver;
 
     @BeforeMethod
-    public void setup() {
-        driver = getDriver("chrome");
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    public void setup() throws IOException {
+        driver = getDriver();
         driver.manage().window().maximize();
         driver.get("http://www.kurs-selenium.pl/demo/");
     }
